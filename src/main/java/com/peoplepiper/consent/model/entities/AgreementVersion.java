@@ -1,9 +1,20 @@
 package com.peoplepiper.consent.model.entities;
 
-import java.time.LocalDateTime;
 
-public interface AgreementVersion<T extends Versionable<T>> extends Agreement {
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    property = "agreementVersionType"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(name = AgreementVersion.TERMS_TYPE, value = TermsAgreementVersion.class),
+})
+public interface AgreementVersion {
+  String TERMS_TYPE = "terms";
   Long getVersion();
-  void setSince(LocalDateTime since);
-  void setUntil(LocalDateTime until);
+
+  Agreement getAgreement();
+  AbstractUserVersionAgreement accept(BaseUser baseUser);
 }

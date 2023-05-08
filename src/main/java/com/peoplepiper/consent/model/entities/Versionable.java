@@ -1,8 +1,12 @@
 package com.peoplepiper.consent.model.entities;
 
-public interface Versionable<T extends Versionable<T>> extends Agreement {
-  Long getId();
-  AgreementVersion<T> current();
 
-  AgreementVersion<T> newVersion(AgreementVersion<T> newVersion);
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+public interface Versionable<T extends AgreementVersion> extends Agreement {
+
+  T current();
+
+  T newVersion(T newVersion);
 }

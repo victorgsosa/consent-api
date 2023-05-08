@@ -33,6 +33,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
@@ -60,7 +64,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <server.port>8085</server.port>
+                <server.port>8086</server.port>
                 <server.ssl.enabled>false</server.ssl.enabled>
 				<server.ssl.key-store/>
 				<server.ssl.key-store-password/>
@@ -69,7 +73,7 @@
 				<server.ssl.key-store-type/>
 				<server.ssl.trust-store/>
 				<server.ssl.trust-store-password/>
-                <management.server.port>8085</management.server.port>
+                <management.server.port>8086</management.server.port>
                 <management.server.ssl.enabled>false</management.server.ssl.enabled>
                 <spring.jpa.hibernate.dialect>org.hibernate.dialect.PostgreSQL10Dialect
                 </spring.jpa.hibernate.dialect>
@@ -80,7 +84,7 @@
                 </spring.datasource.url>
                 <spring.datasource.username>postgres</spring.datasource.username>
                 <spring.datasource.password>PeoplePiper12*</spring.datasource.password>
-                <consent.cors.allowed-origins>http://localhost:4200,http://localhost:5000
+                <consent.cors.allowed-origins>http://localhost:4200,http://localhost:4201
                 </consent.cors.allowed-origins>
                 <consent.cors.allowed-methods>GET,POST,PATCH,OPTIONS,DELETE
                 </consent.cors.allowed-methods>
@@ -101,6 +105,21 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <configuration>
+                    <source>18</source>
+                    <target>18</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

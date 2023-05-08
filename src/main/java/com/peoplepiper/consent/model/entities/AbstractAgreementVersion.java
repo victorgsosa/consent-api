@@ -2,52 +2,56 @@ package com.peoplepiper.consent.model.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import javax.persistence.*;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.MappedSuperclass;
 import lombok.Data;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@MappedSuperclass
 @Data
-public abstract class AbstractAgreementVersion<T extends Versionable<T>>
-    extends AbstractAgreement implements AgreementVersion<T>{
+public abstract class AbstractAgreementVersion<T extends AbstractAgreementVersion<T>>
+    implements AgreementVersion{
   @EmbeddedId
   private AgreementVersionKey key;
 
-  @MapsId("agreementId")
-  private T agreement;
 
   private LocalDateTime createdAt;
   private LocalDateTime since;
   private LocalDateTime until;
 
-  public AbstractAgreementVersion() {
+  protected AbstractAgreementVersion() {
     this.key = new AgreementVersionKey();
   }
 
-  public AbstractAgreementVersion(T agreement) {
-    this.agreement = agreement;
-    this.key.setAgreementId(agreement.getId());
+  protected AbstractAgreementVersion(AbstractVersionableAgreement<T> agreement) {
+    this.setAgreement(agreement);
   }
 
-  protected AbstractAgreementVersion(T agreement, Long version) {
+  protected AbstractAgreementVersion(AbstractVersionableAgreement<T> agreement, Long version) {
     this(agreement);
-    this.key.setVersion(version);
+    this.setVersion(version);
   }
 
   public Long getVersion() {
     return this.getKey().getVersion();
   }
 
-  public void setAgreement(T agreement) {
-    this.getKey().setAgreementId(agreement.getId());
-    this.agreement = agreement;
+  public void setVersion(Long version){
+    this.getKey().setVersion(version);
   }
+
+  public void setAgreement(AbstractVersionableAgreement<T> agreement) {
+    this.getKey().setAgreementId(agreement.getId());
+  }
+
 
   @Embeddable
   @Data
   public static class AgreementVersionKey implements Serializable {
     private Long agreementId;
     private Long version;
-  }
 
+    public AgreementVersionKey() {
+    }
+  }
 }
