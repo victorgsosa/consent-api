@@ -2,6 +2,7 @@ package com.peoplepiper.consent.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.peoplepiper.consent.model.dto.UserAgreementAcceptance;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 public interface Agreement {
   String SUBSCRIPTION_TYPE = "subscription";
   String TERMS_TYPE = "terms";
-  AbstractUserAgreement accept(BaseUser baseUser);
+  AbstractUserAgreement accept(BaseUser baseUser, UserAgreementAcceptance userAgreementAcceptance);
 
   boolean hasAgreement(BaseUser baseUser);
 }

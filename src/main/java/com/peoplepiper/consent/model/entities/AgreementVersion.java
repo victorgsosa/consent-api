@@ -3,6 +3,7 @@ package com.peoplepiper.consent.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.peoplepiper.consent.model.dto.UserAgreementAcceptance;
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -16,5 +17,5 @@ public interface AgreementVersion {
   Long getVersion();
 
   Agreement getAgreement();
-  AbstractUserVersionAgreement accept(BaseUser baseUser);
+  AbstractUserVersionAgreement accept(BaseUser baseUser, UserAgreementAcceptance userAgreementAcceptance);
 }

@@ -11,11 +11,15 @@
     </parent>
     <groupId>com.peoplepiper</groupId>
     <artifactId>consent-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3</version>
     <name>consent-api</name>
     <description>Consent Management API</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>18</java.version>
+        <maven-chekstyle-plugin.version>3.1.2</maven-chekstyle-plugin.version>
+        <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <docker-maven-plugin.version>0.40.2</docker-maven-plugin.version>
+        <aws-java-sdk-core.version>1.12.300</aws-java-sdk-core.version>
     </properties>
     <dependencies>
         <dependency>
@@ -91,6 +95,74 @@
                 <logging.level>DEBUG</logging.level>
             </properties>
         </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <server.port>8080</server.port>
+                <server.ssl.enabled>false</server.ssl.enabled>
+                <server.ssl.key-store/>
+                <server.ssl.key-store-password/>
+                <server.ssl.key-store-type/>
+                <server.ssl.key-store-password/>
+                <server.ssl.key-store-type/>
+                <server.ssl.trust-store/>
+                <server.ssl.trust-store-password/>
+                <management.server.port>8080</management.server.port>
+                <management.server.ssl.enabled>false</management.server.ssl.enabled>
+                <spring.jpa.hibernate.dialect>org.hibernate.dialect.PostgreSQL10Dialect
+                </spring.jpa.hibernate.dialect>
+                <spring.datasource.initialization-mode>always
+                </spring.datasource.initialization-mode>
+                <spring.datasource.platform>postgre</spring.datasource.platform>
+                <!--suppress UnresolvedMavenProperty -->
+                <spring.datasource.url>jdbc:postgresql://${POSTGRE_HOST}:${POSTGRE_PORT}/consent
+                </spring.datasource.url>
+                <!--suppress UnresolvedMavenProperty -->
+                <spring.datasource.username>${POSTGRE_USER}</spring.datasource.username>
+                <!--suppress UnresolvedMavenProperty -->
+                <spring.datasource.password>${POSTGRE_PASSWORD}</spring.datasource.password>
+                <!--suppress UnresolvedMavenProperty -->
+                <consent.cors.allowed-origins>${CORS_ALLOWED_ORIGINS}
+                </consent.cors.allowed-origins>
+                <consent.cors.allowed-methods>GET,POST,PATCH,OPTIONS,DELETE
+                </consent.cors.allowed-methods>
+                <logging.level>DEBUG</logging.level>
+            </properties>
+        </profile>
+        <profile>
+            <id>prd</id>
+            <properties>
+                <server.port>8080</server.port>
+                <server.ssl.enabled>false</server.ssl.enabled>
+                <server.ssl.key-store/>
+                <server.ssl.key-store-password/>
+                <server.ssl.key-store-type/>
+                <server.ssl.key-store-password/>
+                <server.ssl.key-store-type/>
+                <server.ssl.trust-store/>
+                <server.ssl.trust-store-password/>
+                <management.server.port>8080</management.server.port>
+                <management.server.ssl.enabled>false</management.server.ssl.enabled>
+                <spring.jpa.hibernate.dialect>org.hibernate.dialect.PostgreSQL10Dialect
+                </spring.jpa.hibernate.dialect>
+                <spring.datasource.initialization-mode>always
+                </spring.datasource.initialization-mode>
+                <spring.datasource.platform>postgre</spring.datasource.platform>
+                <!--suppress UnresolvedMavenProperty -->
+                <spring.datasource.url>jdbc:postgresql://${POSTGRE_HOST}:${POSTGRE_PORT}/consent
+                </spring.datasource.url>
+                <!--suppress UnresolvedMavenProperty -->
+                <spring.datasource.username>${POSTGRE_USER}</spring.datasource.username>
+                <!--suppress UnresolvedMavenProperty -->
+                <spring.datasource.password>${POSTGRE_PASSWORD}</spring.datasource.password>
+                <!--suppress UnresolvedMavenProperty -->
+                <consent.cors.allowed-origins>${CORS_ALLOWED_ORIGINS}
+                </consent.cors.allowed-origins>
+                <consent.cors.allowed-methods>GET,POST,PATCH,OPTIONS,DELETE
+                </consent.cors.allowed-methods>
+                <logging.level>ERROR</logging.level>
+            </properties>
+        </profile>
     </profiles>
 
     <build>
@@ -120,6 +192,92 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${maven-chekstyle-plugin.version}</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.3</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.amazonaws</groupId>
+                        <artifactId>aws-java-sdk-core</artifactId>
+                        <version>${aws-java-sdk-core.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>${project.artifactId}</alias>
+                            <name>%g/%a:%l</name>
+                            <build>
+                                <from>amazoncorretto:${maven.compiler.target}</from>
+                                <assembly>
+                                    <descriptorRef>artifact-with-dependencies</descriptorRef>
+                                </assembly>
+                                <ports>
+                                    <port>
+                                        ${server.port}
+                                    </port>
+                                </ports>
+                                <cmd>
+                                    <shell>java -jar /maven/${project.build.finalName}.jar</shell>
+                                </cmd>
+                            </build>
+                            <run>
+                                <ports>
+                                    <port>${server.port}:${server.port}</port>
+                                </ports>
+                            </run>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
         </plugins>

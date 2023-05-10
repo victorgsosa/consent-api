@@ -1,5 +1,6 @@
 package com.peoplepiper.consent.model.entities;
 
+import com.peoplepiper.consent.model.dto.UserAgreementAcceptance;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.*;
@@ -24,11 +25,12 @@ public abstract class AbstractAgreement implements Agreement {
   }
 
   @Override
-  public AbstractUserAgreement accept(BaseUser baseUser) {
+  public AbstractUserAgreement accept(BaseUser baseUser, UserAgreementAcceptance userAgreementAcceptance) {
     UserAgreement userAgreement = new UserAgreement();
     userAgreement.setBaseUser(baseUser);
     userAgreement.setAgreement(this);
     userAgreement.setAcceptedAt(LocalDateTime.now());
+    userAgreement.setIp(userAgreementAcceptance.getIp());
     return userAgreement;
   }
 

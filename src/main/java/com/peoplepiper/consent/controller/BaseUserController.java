@@ -1,5 +1,6 @@
 package com.peoplepiper.consent.controller;
 
+import com.peoplepiper.consent.model.dto.UserAgreementAcceptance;
 import com.peoplepiper.consent.model.entities.AbstractAgreement;
 import com.peoplepiper.consent.model.entities.BaseUser;
 import com.peoplepiper.consent.services.BaseUserService;
@@ -36,9 +37,10 @@ public class BaseUserController {
   @PostMapping("{id}/agreements/{agreementId}/accept")
   public BaseUser acceptAgreement(
       @PathVariable("id") String id,
-      @PathVariable("agreementId") Long agreementId
+      @PathVariable("agreementId") Long agreementId,
+      @RequestBody UserAgreementAcceptance userAgreementAcceptance
   ) {
-    return getBaseUserService().acceptAgreement(id, agreementId);
+    return getBaseUserService().acceptAgreement(id, agreementId, userAgreementAcceptance);
   }
 
   @GetMapping("{id}/needed-agreements")

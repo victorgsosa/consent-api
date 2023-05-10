@@ -1,6 +1,7 @@
 package com.peoplepiper.consent.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.peoplepiper.consent.model.dto.UserAgreementAcceptance;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
@@ -30,8 +31,8 @@ public abstract class AbstractVersionableAgreement<T extends AbstractAgreementVe
 
 
   @Override
-  public AbstractUserAgreement accept(BaseUser baseUser) {
-    return current().accept(baseUser);
+  public AbstractUserAgreement accept(BaseUser baseUser, UserAgreementAcceptance userAgreementAcceptance) {
+    return current().accept(baseUser, userAgreementAcceptance);
   }
 
   @Override

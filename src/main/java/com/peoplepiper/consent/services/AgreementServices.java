@@ -1,6 +1,7 @@
 package com.peoplepiper.consent.services;
 
 import com.peoplepiper.consent.model.AgreementRepositories;
+import com.peoplepiper.consent.model.dto.UserAgreementAcceptance;
 import com.peoplepiper.consent.model.entities.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -32,12 +33,12 @@ public class AgreementServices {
       return getAgreementRepository().findById(id);
     }
 
-    public AbstractUserAgreement acceptForUser(Long id, BaseUser user) {
+    public AbstractUserAgreement acceptForUser(Long id, BaseUser user, UserAgreementAcceptance userAgreementAcceptance) {
       Assert.notNull(id, "Id cannot be null");
       Assert.notNull(user, "User cannot be null");
       T agreement = this.findById(id)
           .orElseThrow(() -> new IllegalArgumentException("agreement does not exists"));
-      return agreement.accept(user);
+      return agreement.accept(user, userAgreementAcceptance);
     }
     public Iterable<? extends AbstractAgreement> findAgreementsToAccept(BaseUser user) {
       Assert.notNull(user, "User cannot be null");

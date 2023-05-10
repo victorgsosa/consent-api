@@ -1,6 +1,7 @@
 package com.peoplepiper.consent.services;
 
 import com.peoplepiper.consent.model.BaseUserRepository;
+import com.peoplepiper.consent.model.dto.UserAgreementAcceptance;
 import com.peoplepiper.consent.model.entities.AbstractAgreement;
 import com.peoplepiper.consent.model.entities.AbstractUserAgreement;
 import com.peoplepiper.consent.model.entities.BaseUser;
@@ -38,12 +39,17 @@ public class BaseUserServiceImpl implements BaseUserService {
   }
 
   @Override
-  public BaseUser acceptAgreement(String id, Long agreementId) {
+  public BaseUser acceptAgreement(
+      String id,
+      Long agreementId,
+      UserAgreementAcceptance userAgreementAcceptance
+  ) {
     BaseUser user= this.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("User does not exists"));
     AbstractUserAgreement userAgreement = this.getAgreementService().acceptForUser(
         agreementId,
-        user
+        user,
+        userAgreementAcceptance
     );
     user.addAgreement(userAgreement);
     return this.save(user);

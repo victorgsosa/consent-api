@@ -1,6 +1,7 @@
 package com.peoplepiper.consent.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.peoplepiper.consent.model.dto.UserAgreementAcceptance;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -37,12 +38,13 @@ public class TermsAgreementVersion extends AbstractAgreementVersion<TermsAgreeme
   }
 
   @Override
-  public TermsUserAgreement accept(BaseUser baseUser) {
+  public TermsUserAgreement accept(BaseUser baseUser, UserAgreementAcceptance userAgreementAcceptance) {
     TermsUserAgreement termsUserAgreement = new TermsUserAgreement();
     termsUserAgreement.setBaseUser(baseUser);
     termsUserAgreement.setAgreement(this.getAgreement());
     termsUserAgreement.setAgreementVersion(this);
     termsUserAgreement.setAcceptedAt(LocalDateTime.now());
+    termsUserAgreement.setIp(userAgreementAcceptance.getIp());
     return termsUserAgreement;
   }
 }
