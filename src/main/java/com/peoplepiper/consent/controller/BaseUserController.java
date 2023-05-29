@@ -17,9 +17,9 @@ public class BaseUserController {
     this.baseUserService = baseUserService;
   }
 
-  @GetMapping("{id}")
+  @GetMapping
   public BaseUser findByID(
-      @PathVariable String id
+      @RequestParam String id
   ) {
     return getBaseUserService().findById(id)
         .orElseThrow(
@@ -34,18 +34,18 @@ public class BaseUserController {
     return getBaseUserService().save(user);
   }
 
-  @PostMapping("{id}/agreements/{agreementId}/accept")
+  @PostMapping("agreements/accept")
   public BaseUser acceptAgreement(
-      @PathVariable("id") String id,
-      @PathVariable("agreementId") Long agreementId,
+      @RequestParam("id") String id,
+      @RequestParam("agreementId") Long agreementId,
       @RequestBody UserAgreementAcceptance userAgreementAcceptance
   ) {
     return getBaseUserService().acceptAgreement(id, agreementId, userAgreementAcceptance);
   }
 
-  @GetMapping("{id}/needed-agreements")
+  @GetMapping("needed-agreements")
   public Iterable<? extends AbstractAgreement> findAgreementsToAccept(
-      @PathVariable("id") String id
+      @RequestParam("id") String id
   ) {
     return getBaseUserService().findAgreementsToAccept(id);
   }
