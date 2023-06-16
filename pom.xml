@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.peoplepiper</groupId>
     <artifactId>consent-api</artifactId>
-    <version>0.0.5</version>
+    <version>1.0.0</version>
     <name>consent-api</name>
     <description>Consent Management API</description>
     <properties>

@@ -11,9 +11,13 @@ import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @MappedSuperclass
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public abstract class AbstractVersionableAgreement<T extends AbstractAgreementVersion<T>>
     extends AbstractAgreement implements Versionable<T> {
   @OneToMany(

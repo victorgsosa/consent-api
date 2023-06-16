@@ -1,13 +1,14 @@
 package com.peoplepiper.consent.model.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class TermsUserAgreement extends AbstractUserVersionAgreement<TermsAgreementVersion>{
   public TermsUserAgreement() {
   }

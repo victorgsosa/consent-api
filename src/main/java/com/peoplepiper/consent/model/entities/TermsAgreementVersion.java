@@ -12,6 +12,8 @@ import lombok.ToString;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class TermsAgreementVersion extends AbstractAgreementVersion<TermsAgreementVersion>{
   private String url;
 

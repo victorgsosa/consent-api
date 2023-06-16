@@ -1,11 +1,10 @@
 package com.peoplepiper.consent.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -20,10 +19,10 @@ public class BaseUser {
       mappedBy = "baseUser"
   )
   @JsonManagedReference("user")
-  private Set<AbstractUserAgreement> agreements;
+  private List<AbstractUserAgreement> agreements;
 
   public BaseUser() {
-    this.agreements = new HashSet<>();
+    this.agreements = new ArrayList<>();
   }
 
   public void addAgreement(AbstractUserAgreement agreement) {
